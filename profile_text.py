@@ -11,12 +11,12 @@ import json
 import mdw_utilities as mdw
 
 
-DATA_PATH = os.path.join('00_data', 'text', 'data')
-PROFILE_PATH = os.path.join('00_data', 'text', 'panda_profiles')
-SEPARATOR = ','
-ROW_LIMIT = 10000 #((((2**2)**2)**2)**2)
 CWD = os.getcwd()
-__version__ = '20210201.000'
+DATA_PATH = os.path.join(CWD, 'lcl_data', 'text', 'data')
+PROFILE_PATH = os.path.join(CWD, 'lcl_data', 'text', 'panda_profiles')
+SEPARATOR = ','
+ROW_LIMIT = 10000
+__version__ = '20210310.001'
 
 
 
@@ -28,7 +28,7 @@ def write_timestamp(out_text=''):
 
 
 def write_header():
-    write_timestamp(f"{__file__}")
+    write_timestamp(f"{__file__} version {__version__}")
     print(f"python=={platform.python_version()}")
     # print(f"numpy=={np.__version__}")
     print(f"pandas=={pd.__version__}")
@@ -42,7 +42,6 @@ def read_text_files(path, sep=SEPARATOR):
     write_timestamp(f"profile text files in '{path}'")
     profile = []
     all_keys = []
-
 
     files = os.listdir(path)
 
