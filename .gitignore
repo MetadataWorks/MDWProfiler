@@ -92,4 +92,5 @@ db_fennessy.py
 # data folder
 /data/
 /lcl_data/
+/lcl_profile/
 *.pyc

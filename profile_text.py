@@ -8,7 +8,7 @@ import requests
 import statistics
 import json
 
-import mdw_utilities as mdw
+import innoUk_utilities as mdw
 
 
 CWD = os.getcwd()
@@ -54,7 +54,7 @@ def read_text_files(path, sep=SEPARATOR):
             df = pd.read_csv(os.path.join(path, fname), sep=sep, nrows=ROW_LIMIT)
         else:
             df = pd.read_csv(os.path.join(path, fname), sep=sep)
-        write_timestamp(f"   start profile")
+        write_timestamp(f"   start profile for {len(df)} rows")
 
         text_profile = pp.ProfileReport(df,
                                         title=f"Profile {fname}",
