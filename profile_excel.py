@@ -8,10 +8,8 @@ import json
 
 
 CWD = os.getcwd()
-DATA_PATH = os.path.join(CWD, 'lcl_data', 'text', 'data')
+DATA_PATH = os.path.join(CWD, 'lcl_data')
 PROFILE_PATH = os.path.join(CWD, 'lcl_profile')
-SEPARATOR = ','
-ROW_LIMIT = 10000
 __version__ = '20210310.001'
 
 
@@ -33,7 +31,7 @@ def write_header():
     print()
 
 
-def read_text_files(path, sep=SEPARATOR):
+def read_excel_files(path):
     write_timestamp(f"profile text files in '{path}'")
     profile = []
     all_keys = []
@@ -41,9 +39,10 @@ def read_text_files(path, sep=SEPARATOR):
     files = os.listdir(path)
 
     for fname in files:
-        if '.'==fname[0]:
+        if '.xlsx'==fname[-5:]:
             continue
         write_timestamp(f" - file '{fname}'")
+        excel_file = read_excel_pd(fname, None)
         data_class = f"{os.path.splitext(fname)[0]}"
         if ROW_LIMIT > 0:
             df = pd.read_csv(os.path.join(path, fname), sep=sep, nrows=ROW_LIMIT)
@@ -83,6 +82,21 @@ def read_text_files(path, sep=SEPARATOR):
     print()
     return profile
 
+def read_excel_pd(fname, fill_na = False):
+    excel_reader = pd.ExcelFile(fname)
+    work_sheets = excel_reader.sheet_names
+
+    excel = {}
+
+    for sheet in work_sheets:
+        df_sheet = pd.DataFrame()
+        df_sheet = pd.read_excel(excel_reader, sheet_name=sheet)
+        if fill_na is not None:
+            df_sheet.fillna('', inplace=True)
+        excel[sheet] = copy.deepcopy(df_sheet)
+
+    return excel
+
 
 def write_pandas_profile(profile_path, profile):
     file_counter = 0
@@ -111,7 +125,7 @@ def export_json(data, filename, indent=2):
 def main():
     write_header()
 
-    profile = read_text_files(os.path.join(CWD, DATA_PATH), sep=SEPARATOR)
+    profile = read_excel_files(os.path.join(CWD, DATA_PATH))
     write_pandas_profile(os.path.join(CWD, PROFILE_PATH), profile)
     write_timestamp(f"done")
     return
