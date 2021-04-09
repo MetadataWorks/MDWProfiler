@@ -4,11 +4,11 @@
 
 ## Table of contents
 
-1. [Data Sources](#)
+1. [Data Sources](#-data-sources)
 2. [Setting up the Tool]
 
 ## Data Sources
-#data-sources
+#-data-sources
 
 | DATA TYPE  | DETAILS | SCRIPTS |
 | ---        | --- | --- |
