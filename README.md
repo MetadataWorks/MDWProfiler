@@ -7,7 +7,8 @@ This repo contains Python scripts to generate data profiles for the auto-classif
 1. [Data Sources](#-data-sources)
 2. [Flat Text Files](#-flat-text-files)
 3. [Excel Files](#-excel-files)
-4. [SQL Database](#-sql-database)
+4. [SQL Database](#sql-database)
+5. [License](#-license)
 
 # Data Sources
 
