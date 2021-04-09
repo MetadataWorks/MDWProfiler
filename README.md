@@ -1,14 +1,13 @@
 # MDWProfiler
 
-**This repo contains Python scripts to generate data profiles for the auto-classification and matching of data-classes and data-elements to the NHS Data Dictionary.**
+This repo contains Python scripts to generate data profiles for the auto-classification and matching of data-classes and data-elements to the NHS Data Dictionary.
 
-## Table of contents
+# Table of contents
 
 1. [Data Sources](#-data-sources)
-2. [Setting up the Tool]
+2. [Flat Text Files](#-flat-text-files)
 
-## #Data Sources
-#-data-sources
+# Data Sources
 
 | DATA TYPE  | DETAILS | SCRIPTS |
 | ---        | --- | --- |
@@ -16,6 +15,15 @@
 | Excel Files | The profiler treats every worksheet as its own dataclass | <code>profile_excel.py</code> <code>requirements_excel.txt</code> <code>pandas_profiler_config_mdw.yaml</code>|
 | Relational Databases | The script will profile all tables in a given RDBMS schema | <code>profile_mysql.py</code> <code>requirements_mysql.txt</code> <code>pandas_profiler_config_mdw.yaml</code>|
 
+
+# Flat Text Files
+
+## Required Repo Files
+| File | Description |
+| --- | --- |
+| <code>profile_text.py</code> | This file contains the Python code to run the profiler on text data |
+| <code>requirements_text.txt</code> | Please change the name to <code>requirements.txt</code> to set up your virtual environment |
+| <code>pandas_profiler_config_mdw.yaml</code> | This file contains the profiler configuration |
 
 ## Setting up the Tool
 
