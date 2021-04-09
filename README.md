@@ -4,8 +4,9 @@ This repo contains Python scripts to generate data profiles for the auto-classif
 
 # Table of contents
 
-1. [Data Sources](#-data-sources)
-2. [Flat Text Files](#-flat-text-files)
+1. [Data Sources](# data-sources)
+2. [Flat Text Files](# flat-text-files)
+3. [Excel Files](# excel-files)
 
 # Data Sources
 
@@ -40,10 +41,10 @@ These are the parameters to set up for <code>profile_text.py</code>
 | <code>ROW_LIMIT</code> | This limits the number of rows to be profiled, for performance reasons, please set to 0 to read all rows | 10000 |
 
 ## Requirements
-Python packages required to run the profiler, they can also be found in the requirements_text.txt file:
-<code>Python 3.7</code>
-<code>pandas==1.2.3</code>
-<code>pandas_profiling==2.11.0</code>
+Python packages required to run the profiler, they can also be found in the requirements_text.txt file: <br/>
+<code>Python 3.7</code><br/>
+<code>pandas==1.2.3</code><br/>
+<code>pandas_profiling==2.11.0</code><br/>
 <code>requests==2.25.1</code>
 
 
@@ -58,7 +59,54 @@ To set up project:
 
 <code>source venv/bin/activate</code>
 
-3. Install requirements from requirements.txt
+3. Install requirements from requirements.txt<br/>
+Re-name file requirements_text.txt to requirements.txt
+
+<code>pip install -r requirements.txt</code>
+
+
+# Excel Files
+
+This profiler reads an Excel data file. Each worksheet is treated as a data class. The resulting profile will be written to a profile path or directory in JSON format.
+
+## Required Repo Files
+
+| File | Description |
+| --- | --- |
+| <code>profile_excel.py</code> | This file contains the Python code to run the profiler on Excel files |
+| <code>requirements_excel.txt</code> | Please change the name to <code>requirements.txt</code> to set up your virtual environment |
+| <code>pandas_profiler_config_mdw.yaml</code> | This file contains the profiler configuration |
+
+## Parameters
+
+These are the parameters to set up for <code>profile_text.py</code>
+
+| Parameter | Description | Default |
+| --- | --- | --- |
+| <code>DATA_PATH</code> | The path to the text files to be profiled | 'current working directory'\data | 
+| <code>PROFILE_PATH</code> | The path to which the profile for each data class is written | 'current working directory'\profile |
+| <code>FILES</code> | A list of excel filename to be profiled, this is a required parameter |  |
+
+## Requirements
+Python packages required to run the profiler, they can also be found in the requirements_text.txt file: <br/>
+<code>Python 3.7</code><br/>
+<code>pandas==1.2.3</code><br/>
+<code>pandas_profiling==2.11.0</code><br/>
+<code>requests==2.25.1</code>
+
+
+## Setting up the Tool
+
+To set up project:
+1. Create a new virtual environment using venv:
+
+<code>python3 -m venv venv</code>
+
+2. Activate virtual environment
+
+<code>source venv/bin/activate</code>
+
+3. Install requirements from requirements.txt<br/>
 Re-name file requirements_text.txt to requirements.txt
 
 <code>pip install -r requirements.txt</code>
