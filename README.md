@@ -33,7 +33,7 @@ This profiler reads all text files in a given path or directory. Each file is tr
 These are the parameters to set up for <code>profile_text.py</code>
 
 | Parameter | Description | Default |
-| --- | --- |
+| --- | --- | --- |
 | <code>DATA_PATH</code> | The path to the text files to be profiled | 'current working directory'\data | 
 | <code>PROFILE_PATH</code> | The path to which the profile for each data class is written | 'current working directory'\profile |
 | <code>SEPARATOR</code> | The separator used in the data files, such as CSV, TSV, and any others | , |
@@ -41,6 +41,7 @@ These are the parameters to set up for <code>profile_text.py</code>
 
 ## Requirements
 Python packages required to run the profiler, they can also be found in the requirements_text.txt file:
+<code>Python 3.7</code>
 <code>pandas==1.2.3</code>
 <code>pandas_profiling==2.11.0</code>
 <code>requests==2.25.1</code>
