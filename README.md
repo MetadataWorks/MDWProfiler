@@ -4,9 +4,10 @@ This repo contains Python scripts to generate data profiles for the auto-classif
 
 # Table of contents
 
-1. [Data Sources](# data-sources)
-2. [Flat Text Files](# flat-text-files)
-3. [Excel Files](# excel-files)
+1. [Data Sources](#-data-sources)
+2. [Flat Text Files](#-flat-text-files)
+3. [Excel Files](#-excel-files)
+4. [SQL Database](#-sql-database)
 
 # Data Sources
 
@@ -67,7 +68,7 @@ Re-name file requirements_text.txt to requirements.txt
 
 # Excel Files
 
-This profiler reads an Excel data file. Each worksheet is treated as a data class. The resulting profile will be written to a profile path or directory in JSON format.
+This profiler reads Excel data files. Each worksheet in an Excel file is treated as a data class. The resulting profile will be written to a profile path or directory in JSON format.
 
 ## Required Repo Files
 
@@ -79,7 +80,7 @@ This profiler reads an Excel data file. Each worksheet is treated as a data clas
 
 ## Parameters
 
-These are the parameters to set up for <code>profile_text.py</code>
+These are the parameters to set up for <code>profile_excel.py</code>
 
 | Parameter | Description | Default |
 | --- | --- | --- |
@@ -90,6 +91,57 @@ These are the parameters to set up for <code>profile_text.py</code>
 ## Requirements
 Python packages required to run the profiler, they can also be found in the requirements_text.txt file: <br/>
 <code>Python 3.7</code><br/>
+<code>pandas==1.2.3</code><br/>
+<code>pandas_profiling==2.11.0</code><br/>
+<code>requests==2.25.1</code>
+
+
+## Setting up the Tool
+
+To set up project:
+1. Create a new virtual environment using venv:
+
+<code>python3 -m venv venv</code>
+
+2. Activate virtual environment
+
+<code>source venv/bin/activate</code>
+
+3. Install requirements from requirements.txt<br/>
+Re-name file requirements_text.txt to requirements.txt
+
+<code>pip install -r requirements.txt</code>
+
+
+# SQL Database
+
+This script profiles SQL databases. At the moment we support MySQL, but we will expand this to other RDBMs in the future. The profiler will treat each database table as a data-class. The resulting profile will be written to a profile path or directory in JSON format.
+
+## Required Repo Files
+
+| File | Description |
+| --- | --- |
+| <code>profile_mysql.py</code> | This file contains the Python code to run the profiler on a MySQL schema |
+| <code>requirements_mysql.txt</code> | Please change the name to <code>requirements.txt</code> to set up your virtual environment |
+| <code>pandas_profiler_config_mdw.yaml</code> | This file contains the profiler configuration |
+
+## Parameters
+
+These are the parameters to set up for <code>profile_mysql.py</code>
+
+| Parameter | Description | Required |
+| --- | --- | --- |
+| <code>DB_CONNECTION</code> | Contains the host, user, and password to connect to the MySQL instance | required | 
+| <code>DB_SCHEMA</code> | The database schema to be profiled  | required |
+| <code>SQL_LIMIT</code> | Limits the number of rows per database table for performance reasons | optional, set to 10000 as default, use 0 to select all rows |
+| <code>EXCLUDE_TABLES</code> | List of database tables to be excluded from profiling  | optional, leave as empty list if not used |
+| <code>PROFILE_PATH</code> | The path to which the profile for each data class is written | 'current working directory'\profile |
+
+
+## Requirements
+Python packages required to run the profiler, they can also be found in the requirements_text.txt file: <br/>
+<code>Python 3.7</code><br/>
+<code>mysql.connector==8.0.20</code><br/>
 <code>pandas==1.2.3</code><br/>
 <code>pandas_profiling==2.11.0</code><br/>
 <code>requests==2.25.1</code>

@@ -9,7 +9,7 @@ import copy
 
 
 CWD = os.getcwd()
-DATA_PATH = os.path.join(CWD, 'lcl_data', 'NHS')
+DATA_PATH = os.path.join(CWD, 'lcl_data')
 PROFILE_PATH = os.path.join(CWD, 'lcl_profile')
 FILES = ['A&E Synthetic Data.xlsx']
 __version__ = '20210310.001'
