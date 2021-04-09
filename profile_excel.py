@@ -9,8 +9,8 @@ import copy
 
 
 CWD = os.getcwd()
-DATA_PATH = os.path.join(CWD, 'lcl_data')
-PROFILE_PATH = os.path.join(CWD, 'lcl_profile')
+DATA_PATH = os.path.join(CWD, 'data')
+PROFILE_PATH = os.path.join(CWD, 'profile')
 FILES = ['A&E Synthetic Data.xlsx']
 __version__ = '20210310.001'
 
