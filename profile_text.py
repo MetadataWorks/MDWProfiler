@@ -8,8 +8,8 @@ import json
 
 
 CWD = os.getcwd()
-DATA_PATH = os.path.join(CWD, 'lcl_data', 'text', 'data')
-PROFILE_PATH = os.path.join(CWD, 'lcl_profile')
+DATA_PATH = os.path.join(CWD, 'data')
+PROFILE_PATH = os.path.join(CWD, 'profile')
 SEPARATOR = ','
 ROW_LIMIT = 10000
 __version__ = '20210310.001'
