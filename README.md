@@ -1,13 +1,14 @@
 # MDWProfiler
 
-**This repo contains Python scripts to generate data profiles for the auto-classification and matching of data-classes and data-elements to the NHS Data Dictionary.
+**This repo contains Python scripts to generate data profiles for the auto-classification and matching of data-classes and data-elements to the NHS Data Dictionary.**
 
 ## Table of contents
 
-1. [Data Sources]
+1. [Data Sources](#)
 2. [Setting up the Tool]
 
 ## Data Sources
+#data-sources
 
 | DATA TYPE  | DETAILS | SCRIPTS |
 | ---        | --- | --- |
