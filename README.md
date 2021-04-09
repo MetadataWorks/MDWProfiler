@@ -85,7 +85,7 @@ These are the parameters to set up for <code>profile_excel.py</code>
 
 | Parameter | Description | Default |
 | --- | --- | --- |
-| <code>DATA_PATH</code> | The path to the text files to be profiled | 'current working directory'\data | 
+| <code>DATA_PATH</code> | The path to the Excel files to be profiled | 'current working directory'\data | 
 | <code>PROFILE_PATH</code> | The path to which the profile for each data class is written | 'current working directory'\profile |
 | <code>FILES</code> | A list of excel filename to be profiled, this is a required parameter |  |
 
@@ -136,7 +136,7 @@ These are the parameters to set up for <code>profile_mysql.py</code>
 | <code>DB_SCHEMA</code> | The database schema to be profiled  | required |
 | <code>SQL_LIMIT</code> | Limits the number of rows per database table for performance reasons | optional, set to 10000 as default, use 0 to select all rows |
 | <code>EXCLUDE_TABLES</code> | List of database tables to be excluded from profiling  | optional, leave as empty list if not used |
-| <code>PROFILE_PATH</code> | The path to which the profile for each data class is written | 'current working directory'\profile |
+| <code>PROFILE_PATH</code> | The path to which the profile for each data class is written | required, default set to 'current working directory'\profile |
 
 
 ## Requirements
