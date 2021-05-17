@@ -11,10 +11,10 @@ DB_CONNECTION = {'host':'please enter your db host',
                  'user':'please enter your db user-name',
                  'passwd':'please enter your db password',}
 DB_SCHEMA = 'please enter your db schema'
-SQL_LIMIT = 10000
+SQL_LIMIT = 20000
 EXCLUDE_TABLES = []
 CWD = os.getcwd()
-PROFILE_PATH = os.path.join(CWD, 'profile')
+PROFILE_PATH = os.path.join(CWD, 'lcl_data', 'profiles')
 __version__ = '20210517'
 
 
@@ -56,6 +56,7 @@ def generate_pandas_profile(db_connection, db_schema, ddic, limit):
     all_keys = []
 
     for db_table, db_tbdef in ddic.items():
+        db_table_def = ddic.get(db_table, {})
         write_timestamp(f" - database table '{db_schema}.{db_table}'")
         if limit > 0:
             sql_statement = f"SELECT * FROM `{db_schema}`.`{db_table}` LIMIT {limit};"
@@ -71,24 +72,28 @@ def generate_pandas_profile(db_connection, db_schema, ddic, limit):
         write_timestamp(f"   convert to JSON")
         string_profile = table_profile.to_json()
         json_profile = json.loads(string_profile)
-        dbtab_profile = {db_table: {"data class": db_table, "db table": f"{db_schema}.{db_table}"}}
+        dbtab_profile = {"data_class_name": db_table,
+                         "data_class_features": {"db table": f"{db_schema}.{db_table}"}}
         for key, value in json_profile.get('table', {}).items():
             if key in ['n', 'n_var', 'n_cells_missing', 'n_vars_with_missing', 'n_duplicates']:  # , 'types']:
-                dbtab_profile[db_table][key] = value
-        dbtab_profile[db_table]["data elements"] = []
+                dbtab_profile["data_class_features"][key] = value
+        dbtab_profile["data_elements"] = []
         for de_name, de_data in json_profile.get('variables', {}).items():
-            de_profile = {'data element name': de_name}
+            db_column_def = db_table_def.get(de_name, {})
+            de_profile = {'data_element_name': de_name,
+                          'data_type': db_column_def.get('data_type', ''),
+                          'data_element_features': {}}
             for de_key, de_value in de_data.items():
                 all_keys.append(de_key)
-                if de_key in ['count', 'type', 'n_distinct', 'is_unique', 'n_missing', 'count', 'mean', 'std',
+                if de_key in ['count', 'n_distinct', 'is_unique', 'n_missing', 'count', 'mean', 'std',
                               'variance', 'min', 'max', 'range', '5%', '25%', '50%', '75%', '95%', 'n_category',
                               'value_counts_without_nan']:
                     if 'value_counts_without_nan' == de_key:
                         if len(de_value.keys()) < 33:
-                            de_profile[de_key] = de_value
+                            de_profile['data_element_features'][de_key] = de_value
                     else:
-                        de_profile[de_key] = de_value
-            dbtab_profile[db_table]["data elements"].append(de_profile)
+                        de_profile['data_element_features'][de_key] = de_value
+            dbtab_profile["data_elements"].append(de_profile)
         profile.append(dbtab_profile)
 
     all_keys = list(set(all_keys))
@@ -142,14 +147,13 @@ def read_mysql_ddic(db_connection, db_schema, exclude_tables):
         if table_name in exclude_tables:
             continue
         if not ddic.get(table_name, None):
-            ddic[table_name] = {'Primary Key': []}
+            ddic[table_name] = {}
         ddic[table_name][sr['column_name']] = {'data_type': dtypes.get(sr['data_type'], sr['data_type']),
                                                'db_type': sr['column_type'],
                                                'position': sr['ordinal_position'],
+                                               'primary_key': (True if 'PRI'==sr['column_key'] else False),
                                                'linkable': sr['column_key'],
                                                'db_ddic': sr,}
-        if 'PRI'==sr['column_key']:
-            ddic[table_name]['Primary Key'].append(sr['column_name'])
     print()
     return ddic
 
@@ -181,21 +185,18 @@ def export_json(data, filename, indent=2):
 
 
 def write_pandas_profile(profile_path, profile, limit):
-    file_counter = 0
-    for db_profile in profile:
-        for class_name, class_profile in db_profile.items():
-            json_out = {"MDW Profiler": "Relational Database",
-                        "database": "MySQL",
-                        "dataset": class_profile['db table'],
-                        "version": __version__,
-                        "profile date": datetime.datetime.now().strftime("%Y%m%dT%H%M%S"),
-                        "row limit": limit,
-                        "data classes": {class_profile['data class']: class_profile}}
-            fname = os.path.join(profile_path, f"{class_profile['data class']}.json")
-            write_timestamp(f"write profile {fname}")
-            export_json(json_out, fname)
-            file_counter += 1
-    write_timestamp(f"finished with {file_counter} files")
+    if len(profile) < 1:
+        return
+    json_out = {"mdw_profiler": "relational database",
+                "version": __version__,
+                "profile_timestamp": datetime.datetime.now().strftime("%Y%m%dT%H%M%S"),
+                "profiler_configuration": {"rdbms": "MySQL",
+                                           "row_limit": limit,
+                                           "redaction": False},
+                "data_classes": profile}
+    fname = os.path.join(profile_path, f"mdw_profiler_mysql_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.json")
+    write_timestamp(f"write profile {fname}")
+    export_json(json_out, fname)
     print()
     return
 

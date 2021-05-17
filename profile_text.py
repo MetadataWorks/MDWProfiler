@@ -90,7 +90,7 @@ def write_pandas_profile(profile_path, profile):
         return
     json_out = {"mdw_profiler": "flat text files",
                 "version": __version__,
-                "profile_date": datetime.datetime.now().strftime("%Y%m%dT%H%M%S"),
+                "profile_timestamp": datetime.datetime.now().strftime("%Y%m%dT%H%M%S"),
                 "profiler_configuration": {"row_limit": ROW_LIMIT, "redaction": False},
                 "data_classes": profile}
     fname = os.path.join(profile_path, f"mdw_profiler_text_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.json")
