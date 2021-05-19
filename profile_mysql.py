@@ -87,7 +87,7 @@ def generate_pandas_profile(db_connection, db_schema, ddic, limit):
                 all_keys.append(de_key)
                 if de_key in ['count', 'n_distinct', 'is_unique', 'n_missing', 'count', 'mean', 'std',
                               'variance', 'min', 'max', 'range', '5%', '25%', '50%', '75%', '95%', 'n_category',
-                              'value_counts_without_nan']:
+                              'value_counts_without_nan', 'histogram']:
                     if 'value_counts_without_nan' == de_key:
                         if len(de_value.keys()) < 33:
                             de_profile['data_element_features'][de_key] = de_value
