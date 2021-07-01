@@ -12,7 +12,7 @@ CWD = os.getcwd()
 DATA_PATH = os.path.join(CWD, 'lcl_data')
 PROFILE_PATH = os.path.join(CWD, 'lcl_data', 'profiles')
 FILES = ['A&E Synthetic Data.xlsx']
-__version__ = '20210517'
+__version__ = '20210520'
 
 
 # timestamp
@@ -57,17 +57,43 @@ def read_excel_files(path, files):
             for de_name, de_data in json_profile.get('variables', {}).items():
                 de_profile = {'data_element_name': de_name,
                               'data_type': de_data.get('type', ''),
+                              'histogram': {},
                               'data_element_features': {}}
+                if 0 < len(de_data.get('value_counts_without_nan', {})) <= 20:
+                    de_histogram = ['value_counts_without_nan']
+                    de_features = ['count', 'n_distinct', 'is_unique', 'n_missing', 'count', 'mean', 'std',
+                                  'variance', 'min', 'max', 'range', '5%', '25%', '50%', '75%', '95%', 'n_category',
+                                  'histogram']
+                else:
+                    de_histogram = ['histogram']
+                    de_features = ['count', 'n_distinct', 'is_unique', 'n_missing', 'count', 'mean', 'std',
+                                   'variance', 'min', 'max', 'range', '5%', '25%', '50%', '75%', '95%', 'n_category',
+                                   'value_counts_without_nan']
+
                 for de_key, de_value in de_data.items():
                     all_keys.append(de_key)
-                    if de_key in ['count', 'n_distinct', 'is_unique', 'n_missing', 'count', 'mean', 'std',
-                                  'variance', 'min', 'max', 'range', '5%', '25%', '50%', '75%', '95%', 'n_category',
-                                  'value_counts_without_nan', 'histogram']:
+                    if de_key in de_features:
                         if 'value_counts_without_nan'==de_key:
                             if len(de_value.keys()) < 33:
                                 de_profile['data_element_features'][de_key] = de_value
                         else:
                             de_profile['data_element_features'][de_key] = de_value
+                    elif de_key in de_histogram:
+                        if 'histogram' == de_key:
+                            counts = de_value.get('counts', None)
+                            bin_edges = de_value.get('bin_edges', None)
+                            if counts and bin_edges:
+                                zyzzyva = zip(bin_edges, counts)
+                                zh = []
+                                for z in zyzzyva:
+                                    zh.append({'bin': z[0], 'count': z[1]})
+                                de_profile[de_key] = zh
+                        elif 'value_counts_without_nan' == de_key:
+                            zh = []
+                            for cat_key, cat_count in de_value.items():
+                                zh.append({'key': cat_key, 'count': cat_count})
+                            de_profile['histogram'] = zh
+
                 class_profile["data_elements"].append(de_profile)
             profile.append(class_profile)
 
@@ -95,7 +121,7 @@ def read_excel_pd(fname, fill_na = False):
 def write_pandas_profile(profile_path, profile):
     if len(profile) < 1:
         return
-    json_out = {"mdw_profiler": "excel files",
+    json_out = {"profiler": "MDW excel files",
                 "version": __version__,
                 "profile_timestamp": datetime.datetime.now().strftime("%Y%m%dT%H%M%S"),
                 "profiler_configuration": {"redaction": False},

@@ -85,9 +85,12 @@ fabric.properties
 
 # DB connection
 db_config.py
-db_york_p03.py
-db_newcastle_t03.py
-db_fennessy.py
+db_config_dev.py
+db_config_test.py
+db_config_prod.py
+
+# sand-box
+sandbox.py
 
 # data folder
 /data/

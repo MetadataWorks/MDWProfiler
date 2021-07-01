@@ -39,7 +39,7 @@ vars:
         length: True
         characters: True
         words: True
-        cardinality_threshold: 50
+        cardinality_threshold: 20
         n_obs: 5
 # Set to zero to disable
         chi_squared_threshold: 0.999
@@ -125,10 +125,10 @@ plot:
         x_axis_labels: True
 
 # Number of bins (set to 0 to automatically detect the bin size)
-        bins: 50
+        bins: 20
 
 # Maximum number of bins (when bins=0)
-        max_bins: 250
+        max_bins: 20
 
 # The number of observations to show
 n_obs_unique: 20
