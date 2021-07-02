@@ -7,6 +7,7 @@ import pandas_profiling as pp
 import requests
 import json
 
+# PARAMETERS - please change as documented in the GitHub readme file
 DB_CONNECTION = {'host':'please enter your db host',
                  'user':'please enter your db user-name',
                  'passwd':'please enter your db password',}
@@ -118,7 +119,7 @@ def generate_pandas_profile(db_connection, db_schema, ddic, limit):
                         for cat_key, cat_count in de_value.items():
                             zh.append({'key': cat_key, 'count': cat_count})
                         de_profile['histogram'] = zh
-                        
+
             dbtab_profile["data_elements"].append(de_profile)
         profile.append(dbtab_profile)
 

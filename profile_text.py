@@ -6,7 +6,7 @@ import pandas_profiling as pp
 import requests
 import json
 
-
+# PARAMETERS - please change as documented in the GitHub readme file
 CWD = os.getcwd()
 DATA_PATH = os.path.join(CWD, 'lcl_data', 'text')
 PROFILE_PATH = os.path.join(CWD, 'lcl_data', 'profiles')

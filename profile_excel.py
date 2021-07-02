@@ -7,7 +7,7 @@ import requests
 import json
 import copy
 
-
+# PARAMETERS - please change as documented in the GitHub readme file
 CWD = os.getcwd()
 DATA_PATH = os.path.join(CWD, 'lcl_data')
 PROFILE_PATH = os.path.join(CWD, 'lcl_data', 'profiles')
