@@ -1,3 +1,4 @@
+import copy
 import datetime
 import os
 import platform
@@ -65,13 +66,33 @@ def read_text_files(path, nrows, sep=SEPARATOR):
         for de_name, de_data in json_profile.get('variables', {}).items():
             de_profile = {'data_element_name': de_name,
                           'data_type': de_data.get('type', ''),
-                          'histogram': {},
+                          'histogram': [],
                           'data_element_features': {}}
+
+            if not de_data.get('histogram', None):
+                total = de_data.get('count', de_data.get('n', 0))
+                if de_data.get('value_counts_without_nan', None):
+                    if len(de_data.get('value_counts_without_nan', {})) > 20:
+                        lcl_value_counts = copy.deepcopy(de_data['value_counts_without_nan'])
+                        de_data['value_counts_without_nan'] = {}
+                        i = 0
+                        for vc_key, vc_count in lcl_value_counts.items():
+                            de_data['value_counts_without_nan'][vc_key] = vc_count
+                            if total > vc_count:
+                                total -= vc_count
+                            else:
+                                total = 0
+                            i += 1
+                            if i > 18:
+                                de_data['value_counts_without_nan']['List truncated...'] = total
+                                break
+                else:
+                    de_data['value_counts_without_nan'] = {'NULL': total}
+
             if 0 < len(de_data.get('value_counts_without_nan', {})) <= 20:
                 de_histogram = ['value_counts_without_nan']
                 de_features = ['count', 'n_distinct', 'is_unique', 'n_missing', 'count', 'mean', 'std',
-                               'variance', 'min', 'max', 'range', '5%', '25%', '50%', '75%', '95%', 'n_category',
-                               'histogram']
+                               'variance', 'min', 'max', 'range', '5%', '25%', '50%', '75%', '95%', 'n_category']
             else:
                 de_histogram = ['histogram']
                 de_features = ['count', 'n_distinct', 'is_unique', 'n_missing', 'count', 'mean', 'std',
@@ -94,7 +115,7 @@ def read_text_files(path, nrows, sep=SEPARATOR):
                             zh = []
                             for z in zyzzyva:
                                 zh.append({'bin': z[0], 'count': z[1]})
-                            de_profile[de_key] = zh
+                            de_profile['histogram'] = zh
                     elif 'value_counts_without_nan' == de_key:
                         zh = []
                         for cat_key, cat_count in de_value.items():
@@ -118,7 +139,7 @@ def write_pandas_profile(profile_path, profile):
                 "profile_timestamp": datetime.datetime.now().strftime("%Y%m%dT%H%M%S"),
                 "profiler_configuration": {"row_limit": ROW_LIMIT, "redaction": False},
                 "data_classes": profile}
-    fname = os.path.join(profile_path, f"mdw_profiler_text_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.json")
+    fname = os.path.join(profile_path, f"mdw_profiler_text_{datetime.datetime.now().strftime('%Y%m%d_%H%M')}.json")
     write_timestamp(f"write profile {fname}")
     export_json(json_out, fname)
     print()
