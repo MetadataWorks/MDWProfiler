@@ -9,9 +9,9 @@ import copy
 
 # PARAMETERS - please change as documented in the GitHub readme file
 CWD = os.getcwd()
-DATA_PATH = os.path.join(CWD, 'lcl_data')
-PROFILE_PATH = os.path.join(CWD, 'lcl_data', 'profiles')
-FILES = ['A&E Synthetic Data.xlsx']
+DATA_PATH = 'path to Excel files' #os.path.join(CWD, 'lcl_data')
+PROFILE_PATH = 'path to write profile to' #os.path.join(CWD, 'lcl_data', 'profiles')
+FILES = ['excel_file_0.xlsx', 'excel_file_1.xlsx', 'etc.'] #['A&E Synthetic Data.xlsx']
 __version__ = '20210520'
 
 

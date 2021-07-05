@@ -15,7 +15,7 @@ DB_SCHEMA = 'please enter your db schema'
 SQL_LIMIT = 20000
 EXCLUDE_TABLES = []
 CWD = os.getcwd()
-PROFILE_PATH = os.path.join(CWD, 'lcl_data', 'profiles')
+PROFILE_PATH = 'path to write profile to' #os.path.join(CWD, 'lcl_data', 'profiles')
 __version__ = '20210520'
 
 

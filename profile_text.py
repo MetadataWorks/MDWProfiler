@@ -9,8 +9,8 @@ import json
 
 # PARAMETERS - please change as documented in the GitHub readme file
 CWD = os.getcwd()
-DATA_PATH = os.path.join(CWD, 'lcl_data', 'text')
-PROFILE_PATH = os.path.join(CWD, 'lcl_data', 'profiles')
+DATA_PATH = 'path to data class text files' #os.path.join(CWD, 'lcl_data', 'text')
+PROFILE_PATH = 'path to write profile to' #os.path.join(CWD, 'lcl_data', 'profiles')
 SEPARATOR = ','
 ROW_LIMIT = 10000
 __version__ = '20210520'
